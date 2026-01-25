@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-Created-By: Maven Archiver 3.6.5
-Java-Version: 21
-Build-Jdk-Spec: 21
-Main-Class: com.ibm.example.CryptoType
-
