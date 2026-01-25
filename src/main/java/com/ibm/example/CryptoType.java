@@ -32,6 +32,11 @@ public class CryptoType {
             String password = PasswordUtil.removeCryptoAlgorithmTag(passwordHash);
             byte[] passwordBytes = Base64Coder.base64Decode(password.getBytes(StandardCharsets.UTF_8));
 
+            if (null == passwordBytes) {
+                System.err.println("Invalid aes password encryption");
+                System.exit(3);
+            }
+
             switch (passwordBytes[0]) {
                 case 0: 
                     System.out.println("AES Encyption type: AES_V0 : AES-128");
@@ -44,7 +49,7 @@ public class CryptoType {
                     break;
                 default: 
                     System.err.println("AES Unknown Encryption");
-                    System.exit(3);
+                    System.exit(4);
             }
         }
     }
