@@ -33,9 +33,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.ibm.websphere.appserver.api</groupId>
+      <groupId>io.openliberty</groupId>
       <artifactId>com.ibm.websphere.appserver.api.passwordUtil</artifactId>
-      <version>1.0.108</version>
+      <version>1.0.105.RELEASE</version>
     </dependency>
     <dependency>
       <groupId>io.openliberty</groupId>
