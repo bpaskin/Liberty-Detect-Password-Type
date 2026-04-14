@@ -10,6 +10,7 @@ This utility analyzes encrypted password hashes to determine their encryption al
 
 - Detects valid crypto algorithm tags in password hashes
 - Identifies specific AES encryption variants (AES-128, AES-256)
+- Determines if AES passwords use built-in or external encryption keys
 - Supports multiple encryption types including XOR and AES
 - Command-line interface for easy integration into scripts and workflows
 
@@ -55,10 +56,30 @@ Input: {xor}Lz4sLCgwLTs=
 Detected Type: xor
 ```
 
-For AES encrypted passwords, additional encryption variant information is provided:
+For AES encrypted passwords, additional encryption variant and key type information is provided:
 ```
 Password Type Detection Utility
 Input: {aes}AbCdEfGhIjKlMnOpQrStUvWxYz==
 Detected Type: aes
 AES Encryption type: AES_V1 : AES-256
+KEY: Built-in
 ```
+
+### Key Type Detection
+
+For AES encrypted passwords, the utility automatically detects whether the password was encrypted using:
+
+- **Built-in key**: The default encryption key embedded in Liberty
+- **External key**: A custom encryption key configured in the server
+
+This information is displayed as the last line of output for AES passwords:
+- `KEY: Built-in` - Password uses the default Liberty encryption key
+- `KEY: External key` - Password uses a custom encryption key (requires proper key configuration to decode)
+
+### AES Encryption Variants
+
+The utility identifies three AES encryption variants:
+
+- **AES_V0**: AES-128 encryption
+- **AES_V1**: AES-256 encryption (most common)
+- **AES_V2**: AES-256 encryption (newer variant)

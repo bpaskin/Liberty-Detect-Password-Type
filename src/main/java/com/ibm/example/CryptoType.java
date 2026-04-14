@@ -1,5 +1,7 @@
 package com.ibm.example;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
 import com.ibm.websphere.crypto.PasswordUtil;
@@ -19,7 +21,7 @@ public class CryptoType {
         String passwordHash = args[0];
         System.out.println("Input: " + passwordHash);
         String detectedType = null;
-        
+    
         if (PasswordUtil.isValidCryptoAlgorithmTag(passwordHash)) {
             detectedType = PasswordUtil.getCryptoAlgorithm(passwordHash);
             System.out.println("Detected Type: " + detectedType);
@@ -50,6 +52,29 @@ public class CryptoType {
                 default: 
                     System.err.println("AES Unknown Encryption");
                     System.exit(4);
+            }
+
+            try {
+                // Capture System.err
+                PrintStream originalErr = System.err;
+                ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+                System.setErr(new PrintStream(errContent));
+                PasswordUtil.passwordDecode(passwordHash);
+                
+                // Restore original streams
+                System.setErr(originalErr);
+                
+                // captured output
+                String capturedErr = errContent.toString();
+
+                if (capturedErr.length() == 0) {
+                    System.out.println("KEY: Built-in");
+                } else {
+                    System.err.println("KEY: External key");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.exit(5);
             }
         }
     }
